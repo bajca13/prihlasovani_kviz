@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studentský Kvíz - Registrace 🏆</title>
+    <!-- Tailwind CSS přes CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Zadaný gradient z fialové do modré */
+            background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%);
+            background-attachment: fixed;
+        }
+
+        .container-card {
+            background: white;
+            width: 95%;
+            max-width: 480px;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            position: relative;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        header h1 {
+            color: rgb(109, 55, 146);
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        input:focus {
+            border-color: rgb(109, 55, 146);
+            background-color: #fcfaff;
+        }
+
+        /* Zadané oranžové tlačítko */
+        button {
+            width: 100%;
+            padding: 16px;
+            background: rgb(226, 151, 84);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px -1px rgba(226, 151, 84, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 10px -1px rgba(226, 151, 84, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #success-message {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #success-message h2 {
+            color: rgb(109, 55, 146);
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        #success-message p {
+            font-size: 18px;
+            color: #444;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .decor-icon {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .rocket { top: -20px; right: -20px; font-size: 40px; transform: rotate(15deg); }
+        .pencil { bottom: -15px; left: -15px; font-size: 35px; transform: rotate(-10deg); }
+    </style>
+</head>
+<body>
+
+    <div class="container-card">
+        <!-- Ozdobné ikony -->
+        <div class="decor-icon rocket">🚀</div>
+        <div class="decor-icon pencil">📝</div>
+
+        <!-- Formulář -->
+        <div id="registration-form">
+            <header class="text-center">
+                <h1>Studentský Kvíz 🥇</h1>
+                <p class="subtitle">Zaregistruj svůj tým a ukaž, co v tobě je!</p>
+            </header>
+
+            <form id="quizForm">
+                <div>
+                    <label>Název týmu</label>
+                    <input type="text" id="teamName" name="teamName" placeholder="Např. Kvízoví Magnáti" required>
+                </div>
+
+                <div>
+                    <label>Počet členů (1-10)</label>
+                    <input type="number" id="memberCount" name="memberCount" min="1" max="10" placeholder="Kolik vás bude?" required>
+                </div>
+
+                <div>
+                    <label>Jméno kapitána</label>
+                    <input type="text" id="captainName" name="captainName" placeholder="Kontaktní osoba" required>
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span>Odeslat přihlášku</span>
+                    <span>🚀</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Potvrzení úspěchu -->
+        <div id="success-message">
+            <h2>Máme vás! 🎉</h2>
+            <p>Tým byl úspěšně zaregistrován!<br>Těšíme se na vás v aréně.</p>
+            <div style="font-size: 50px; margin-top: 20px;">🏆</div>
+        </div>
+    </div>
+
+    <script>
+        // SEM VLOŽTE URL Z GOOGLE APPS SCRIPTU
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzYetnfQur9vv6ri-VvxobASujGAErtFBYDrJ6tH9BtcwxoIH1TyFrZm988q20yDrgk/exec';
+
+        const form = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formContainer = document.getElementById('registration-form');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // Vizuální zpětná vazba při odesílání
+            submitBtn.disabled = true;
+            submitBtn.querySelector('span:first-child').innerText = 'Odesílám...';
+
+            const formData = new FormData(form);
+
+            // Odeslání dat
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: formData 
+            })
+            .then(response => {
+                // Skrytí formuláře a zobrazení úspěchu
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                console.log('Úspěšně odesláno');
+            })
+            .catch(error => {
+                console.error('Chyba!', error.message);
+                alert('Něco se nepovedlo. Zkuste to prosím znovu.');
+                submitBtn.disabled = false;
+                submitBtn.querySelector('span:first-child').innerText = 'Zkusit znovu 🚀';
+            });
+        });
+    </script>
+</body>
+</html>
