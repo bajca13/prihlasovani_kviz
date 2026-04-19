@@ -17,7 +17,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Zadaný gradient z fialové do modré */
+            /* Gradient z fialové do modré */
             background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%);
             background-attachment: fixed;
         }
@@ -31,7 +31,6 @@
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
             position: relative;
             margin: 20px;
-            transition: all 0.3s ease;
         }
 
         header h1 {
@@ -68,7 +67,7 @@
             box-sizing: border-box;
             transition: all 0.2s ease;
             outline: none;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         input:focus {
@@ -76,7 +75,16 @@
             background-color: #fcfaff;
         }
 
-        /* Zadané oranžové tlačítko */
+        /* Poznámka pod kontaktem */
+        .note {
+            font-size: 11px;
+            color: rgb(226, 151, 84);
+            font-weight: 600;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        /* Oranžové tlačítko */
         button {
             width: 100%;
             padding: 16px;
@@ -93,16 +101,13 @@
             gap: 10px;
             box-shadow: 0 4px 6px -1px rgba(226, 151, 84, 0.3);
             transition: all 0.2s ease;
+            margin-top: 10px;
         }
 
         button:hover {
             opacity: 0.9;
             transform: translateY(-1px);
             box-shadow: 0 6px 10px -1px rgba(226, 151, 84, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
         }
 
         button:disabled {
@@ -168,8 +173,8 @@
                 </div>
 
                 <div>
-                    <label>Počet členů (1-10)</label>
-                    <input type="number" id="memberCount" name="memberCount" min="1" max="10" placeholder="Kolik vás bude?" required>
+                    <label>Počet členů (1-8)</label>
+                    <input type="number" id="memberCount" name="memberCount" min="1" max="8" placeholder="Kolik vás bude?" required>
                 </div>
 
                 <div>
@@ -178,11 +183,10 @@
                 </div>
 
                 <div>
-                    <label>Kontakt (E-mail / Telefon)</label>
-                    <input type="text" id="contact" name="contact" placeholder="email@seznam.cz nebo 777 123 456" required>
+                    <label>Email / Kontakt na kapitána</label>
+                    <input type="text" id="captainContact" name="captainContact" placeholder="Email nebo telefon" required>
+                    <p class="note">Po registraci vám přijde potvrzující email.</p>
                 </div>
-
-                <button type="submit" id="submitBtn">
 
                 <button type="submit" id="submitBtn">
                     <span>Odeslat přihlášku</span>
@@ -200,7 +204,7 @@
     </div>
 
     <script>
-        // SEM VLOŽTE URL Z GOOGLE APPS SCRIPTU
+        // URL adresa vašeho Google Apps Scriptu
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzYetnfQur9vv6ri-VvxobASujGAErtFBYDrJ6tH9BtcwxoIH1TyFrZm988q20yDrgk/exec';
 
         const form = document.getElementById('quizForm');
@@ -211,25 +215,24 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             
-            // Vizuální zpětná vazba při odesílání
+            // Zamknutí tlačítka a změna textu
             submitBtn.disabled = true;
             submitBtn.querySelector('span:first-child').innerText = 'Odesílám...';
 
             const formData = new FormData(form);
 
-            // Odeslání dat
+            // Odeslání dat přes fetch POST
             fetch(scriptURL, { 
                 method: 'POST', 
                 body: formData 
             })
             .then(response => {
-                // Skrytí formuláře a zobrazení úspěchu
+                // Skrytí formuláře a zobrazení děkovačky
                 formContainer.style.display = 'none';
                 successMessage.style.display = 'block';
-                console.log('Úspěšně odesláno');
             })
             .catch(error => {
-                console.error('Chyba!', error.message);
+                console.error('Chyba odesílání:', error.message);
                 alert('Něco se nepovedlo. Zkuste to prosím znovu.');
                 submitBtn.disabled = false;
                 submitBtn.querySelector('span:first-child').innerText = 'Zkusit znovu 🚀';
