@@ -7,99 +7,74 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 40px 10px; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%); background-attachment: fixed; box-sizing: border-box; overflow-y: auto; }
-        .container-card { background: white; width: 100%; max-width: 480px; padding: 35px 25px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; margin: auto; }
-        @media (min-width: 640px) { .container-card { padding: 40px; } }
-        header h1 { color: rgb(109, 55, 146); font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-        .subtitle { color: #666; font-size: 14px; margin-bottom: 25px; }
-        .form-group { margin-bottom: 18px; text-align: left; }
-        label { display: block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 6px; text-transform: uppercase; }
-        input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; }
+        body { font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%); background-attachment: fixed; padding: 40px 10px; margin:0; box-sizing: border-box; }
+        .card { background: white; width: 100%; max-width: 480px; padding: 40px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; text-align: center; }
+        h1 { color: rgb(109, 55, 146); font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        label { display: block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 6px; text-transform: uppercase; text-align: left; }
+        input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; }
         input:focus { border-color: rgb(109, 55, 146); }
-        .note { font-size: 11px; color: rgb(226, 151, 84); font-weight: 600; margin-top: 6px; }
-        button { width: 100%; padding: 16px; background: rgb(226, 151, 84); color: white; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+        .note { font-size: 11px; color: rgb(226, 151, 84); font-weight: 600; margin-top: -15px; margin-bottom: 20px; text-align: left; }
+        button { width: 100%; padding: 16px; background: rgb(226, 151, 84); color: white; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; }
         button:disabled { background: #cbd5e1; cursor: not-allowed; }
-        #success-message { display: none; text-align: center; }
-        .decor-icon { position: absolute; pointer-events: none; z-index: -1; opacity: 0.8; }
-        .rocket { top: -15px; right: -15px; font-size: 35px; transform: rotate(15deg); }
-        .pencil { bottom: -15px; left: -15px; font-size: 30px; transform: rotate(-10deg); }
+        #success { display: none; }
     </style>
 </head>
 <body>
-    <div class="container-card">
-        <div class="decor-icon rocket">🚀</div>
-        <div class="decor-icon pencil">📝</div>
-        <div id="registration-form">
-            <header class="text-center">
+    <div class="card">
+        <div id="form-container">
+            <header>
                 <h1>Studentský Kvíz 🥇</h1>
-                <p class="subtitle">Zaregistruj svůj tým a ukaž, co v tobě je!</p>
+                <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Zaregistruj svůj tým!</p>
             </header>
             <form id="quizForm">
-                <div class="form-group">
-                    <label>Název týmu</label>
-                    <input type="text" name="teamName" placeholder="Např. Kvízoví Magnáti" required>
-                </div>
-                <div class="form-group">
-                    <label>Počet členů (1-8)</label>
-                    <input type="number" name="memberCount" min="1" max="8" placeholder="Kolik vás bude?" required>
-                </div>
-                <div class="form-group">
-                    <label>Jméno kapitána</label>
-                    <input type="text" name="captainName" placeholder="Kontaktní osoba" required>
-                </div>
-                <div class="form-group">
-                    <label>Email / Kontakt na kapitána</label>
-                    <!-- Tady je důležité name="contact" -->
-                    <input type="text" name="contact" placeholder="Email nebo telefon" required>
-                    <p class="note">Po registraci vám přijde potvrzující email.</p>
-                </div>
-                <button type="submit" id="submitBtn">
-                    <span>Odeslat přihlášku</span>
-                    <span>🚀</span>
-                </button>
+                <label>Název týmu</label>
+                <input type="text" name="teamName" required>
+                
+                <label>Počet členů (1-8)</label>
+                <input type="number" name="memberCount" min="1" max="8" required>
+                
+                <label>Jméno kapitána</label>
+                <input type="text" name="captainName" required>
+                
+                <label>Email na kapitána</label>
+                <input type="text" name="contact" required>
+                <p class="note">Po registraci vám přijde potvrzující email.</p>
+                
+                <button type="submit" id="btn">Odeslat přihlášku 🚀</button>
             </form>
         </div>
-        <div id="success-message">
-            <h2 class="text-[30px] font-black text-[#6d3792] mb-4">Máme vás! 🎉</h2>
-            <p class="text-[18px] text-[#444] font-medium leading-relaxed">Tým byl zaregistrován!<br>Těšíme se na vás v aréně.</p>
-            <div style="font-size: 50px; margin-top: 20px;">🏆</div>
+        <div id="success">
+            <h2 style="color: rgb(109, 55, 146); font-size: 32px; font-weight: 800;">Máme vás! 🎉</h2>
+            <p style="font-size: 18px; margin-top: 10px;">Tým byl úspěšně zaregistrován.</p>
         </div>
     </div>
 
     <script>
-        // SEM VLOŽTE TU NOVOU URL Z NASAZENÍ
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxSR5JfKinijRuZpRTyi0MLkn29xjmK0Q8LgbRc9R9oGvqtTwo3_S8c9aQwWrhKXtk/exec';
+        // VLOŽTE ADRESU Z NOVÉHO NASAZENÍ
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxI6vf0rTrvT_9f_fd_2XGPyRv6RO1qJMl2pGZw3edaK4Q17FCwHQtyQowx1SWw1v8S/exec';
 
-        const form = document.getElementById('quizForm');
-        const submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', e => {
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            submitBtn.disabled = true;
-            submitBtn.querySelector('span:first-child').innerText = 'Odesílám...';
+            const btn = document.getElementById('btn');
+            btn.disabled = true;
+            btn.innerText = 'Odesílám...';
 
-            // Převod na form-data formát, který Google Script miluje přes e.parameter
-            const formData = new FormData(form);
-            const params = new URLSearchParams();
-            for (const pair of formData) {
-                params.append(pair[0], pair[1]);
-            }
+            // Převod na URL formát (nejspolehlivější pro Google)
+            const formData = new FormData(this);
+            const encodedData = new URLSearchParams(formData).toString();
 
-            fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors', // Důležité pro Google Script
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params.toString() 
-            })
-            .then(() => {
-                document.getElementById('registration-form').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            })
-            .catch(error => {
-                alert('Chyba odesílání. Zkuste to znovu.');
-                submitBtn.disabled = false;
-                submitBtn.querySelector('span:first-child').innerText = 'Zkusit znovu 🚀';
+                body: encodedData
+            }).then(() => {
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('success').style.display = 'block';
+            }).catch(() => {
+                alert('Chyba! Zkuste to znovu.');
+                btn.disabled = false;
+                btn.innerText = 'Zkusit znovu 🚀';
             });
         });
     </script>
