@@ -4,77 +4,268 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studentský Kvíz - Registrace 🏆</title>
+    <!-- Tailwind CSS přes CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Outfit (Nejbližší bezplatná alternativa k písmu Daytona) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%); background-attachment: fixed; padding: 40px 10px; margin:0; box-sizing: border-box; }
-        .card { background: white; width: 100%; max-width: 480px; padding: 40px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; text-align: center; }
-        h1 { color: rgb(109, 55, 146); font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-        label { display: block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 6px; text-transform: uppercase; text-align: left; }
-        input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; }
-        input:focus { border-color: rgb(109, 55, 146); }
-        .note { font-size: 11px; color: rgb(226, 151, 84); font-weight: 600; margin-top: -15px; margin-bottom: 20px; text-align: left; }
-        button { width: 100%; padding: 16px; background: rgb(226, 151, 84); color: white; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; }
-        button:disabled { background: #cbd5e1; cursor: not-allowed; }
-        #success { display: none; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Gradient z fialové do modré */
+            background: linear-gradient(135deg, rgb(109, 55, 146) 0%, rgb(99, 189, 221) 100%);
+            background-attachment: fixed;
+            padding: 40px 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .container-card {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            padding: 45px 25px;
+            border-radius: 28px;
+            /* Profesionální stín pro "vyleštěný" vzhled */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            margin: auto;
+            text-align: center;
+        }
+
+        @media (min-width: 640px) {
+            .container-card { padding: 50px; }
+        }
+
+        h1 {
+            color: rgb(109, 55, 146);
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            color: #71717a;
+            font-size: 15px;
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #18181b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #f4f4f5;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            outline: none;
+            background-color: #fafafa;
+            color: #18181b;
+        }
+
+        input:focus {
+            border-color: rgb(109, 55, 146);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(109, 55, 146, 0.1);
+        }
+
+        .note {
+            font-size: 12px;
+            color: rgb(226, 151, 84);
+            font-weight: 600;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        /* Oranžové akční tlačítko */
+        button {
+            width: 100%;
+            padding: 18px;
+            background: rgb(226, 151, 84);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 15px -3px rgba(226, 151, 84, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(226, 151, 84, 0.5);
+            filter: brightness(1.05);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #e4e4e7;
+            color: #a1a1aa;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #success-message {
+            display: none;
+            padding: 20px 0;
+            animation: popIn 0.6s cubic-bezier(0.26, 0.53, 0.74, 1.48);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Ozdobné ikony */
+        .decor-icon {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            z-index: 10;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+        }
+
+        .rocket { top: -25px; right: -25px; font-size: 50px; transform: rotate(15deg); }
+        .pencil { bottom: -20px; left: -20px; font-size: 45px; transform: rotate(-10deg); }
+
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .submitting .spinner { display: block; }
+        .submitting .btn-icon { display: none; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div id="form-container">
+
+    <div class="container-card">
+        <!-- Dekorace -->
+        <div class="decor-icon rocket">🚀</div>
+        <div class="decor-icon pencil">📝</div>
+
+        <div id="registration-form">
             <header>
                 <h1>Studentský Kvíz 🥇</h1>
-                <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Zaregistruj svůj tým!</p>
+                <p class="subtitle">Zaregistruj svůj tým a ukaž, co v tobě je!</p>
             </header>
+
             <form id="quizForm">
-                <label>Název týmu</label>
-                <input type="text" name="teamName" required>
-                
-                <label>Počet členů (1-8)</label>
-                <input type="number" name="memberCount" min="1" max="8" required>
-                
-                <label>Jméno kapitána</label>
-                <input type="text" name="captainName" required>
-                
-                <label>Email na kapitána</label>
-                <input type="text" name="contact" required>
-                <p class="note">Po registraci vám přijde potvrzující email.</p>
-                
-                <button type="submit" id="btn">Odeslat přihlášku 🚀</button>
+                <div class="form-group">
+                    <label>Název týmu</label>
+                    <input type="text" name="teamName" placeholder="Zadej název týmu" required>
+                </div>
+
+                <div class="form-group">
+                    <label style="border-bottom: 3px solid rgb(226, 151, 84); display: inline-block;">Počet členů (1-8)</label>
+                    <input type="number" name="memberCount" min="1" max="8" placeholder="Kolik vás bude?" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Jméno kapitána</label>
+                    <input type="text" name="captainName" placeholder="Zadej jméno kapitána" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Kontakt na kapitána</label>
+                    <!-- Název 'contact' pro kompatibilitu se skriptem -->
+                    <input type="text" name="contact" placeholder="Email nebo telefon" required>
+                    <p class="note">Po registraci vám přijde potvrzující email.</p>
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <div class="spinner"></div>
+                    <span class="btn-text">Odeslat přihlášku</span>
+                    <span class="btn-icon">🚀</span>
+                </button>
             </form>
         </div>
-        <div id="success">
-            <h2 style="color: rgb(109, 55, 146); font-size: 32px; font-weight: 800;">Máme vás! 🎉</h2>
-            <p style="font-size: 18px; margin-top: 10px;">Tým byl úspěšně zaregistrován.</p>
+
+        <div id="success-message">
+            <h2 style="color: rgb(109, 55, 146); font-size: 34px; font-weight: 800; margin-bottom: 20px;">Máme vás! 🎉</h2>
+            <div style="background: #f0f9ff; padding: 30px; border-radius: 24px;">
+                <p style="font-size: 19px; color: #1f2937; font-weight: 600; line-height: 1.6; margin: 0;">
+                    Tým byl úspěšně zaregistrován!<br>Těšíme se na vás v aréně.
+                </p>
+            </div>
+            <div style="font-size: 70px; margin-top: 35px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1));">🏆</div>
         </div>
     </div>
 
     <script>
-        // VLOŽTE ADRESU Z NOVÉHO NASAZENÍ
+        // VAŠE NOVÁ URL ADRESA
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxI6vf0rTrvT_9f_fd_2XGPyRv6RO1qJMl2pGZw3edaK4Q17FCwHQtyQowx1SWw1v8S/exec';
 
-        document.getElementById('quizForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn');
-            btn.disabled = true;
-            btn.innerText = 'Odesílám...';
+        const form = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formContainer = document.getElementById('registration-form');
+        const successMessage = document.getElementById('success-message');
 
-            // Převod na URL formát (nejspolehlivější pro Google)
-            const formData = new FormData(this);
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.classList.add('submitting');
+            submitBtn.querySelector('.btn-text').innerText = 'Odesílám...';
+
+            const formData = new FormData(form);
             const encodedData = new URLSearchParams(formData).toString();
 
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
+            fetch(scriptURL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: encodedData
-            }).then(() => {
-                document.getElementById('form-container').style.display = 'none';
-                document.getElementById('success').style.display = 'block';
-            }).catch(() => {
-                alert('Chyba! Zkuste to znovu.');
-                btn.disabled = false;
-                btn.innerText = 'Zkusit znovu 🚀';
+                body: encodedData 
+            })
+            .then(() => {
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                alert('Něco se nepovedlo. Zkuste to prosím znovu.');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('submitting');
+                submitBtn.querySelector('.btn-text').innerText = 'Odeslat přihlášku';
             });
         });
     </script>
